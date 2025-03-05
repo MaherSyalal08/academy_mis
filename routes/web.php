@@ -1,11 +1,22 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DemoController; 
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('./layouts/starter');
 });
+
+Route::get('/1', function () {
+    return view('./demo/file1');
+});
+
+// Route::get('/2', function () {
+//     return view('./demo/file2');
+// });
+
+Route::get('/2', [DemoController::class, 'index']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
