@@ -58,13 +58,11 @@
                 </a>
                 <div class="collapse" id="base">
                   <ul class="nav nav-collapse">
-                      @if(Auth::user()->role_id == 1)
                     <li>
                       <a href="{{route('dosenList')}}">
                         <span class="sub-item">Dosen</span>
                       </a>
                     </li>
-                      @endif
                     <li>
                       <a href="{{route('mahasiswaList')}}">
                         <span class="sub-item">Mahasiswa</span>

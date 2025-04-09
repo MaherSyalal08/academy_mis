@@ -20,7 +20,7 @@
             <div class="card-body">
 
                 <div class="row">
-                    <form method="POST" action="{{ route('mahasiswaStore') }}">
+                    <form method="POST" action="{{ route('mahasiswaStore') }}" enctype="multipart/form-data">
                         @csrf
                     <div class="form-group">
                         <label for="nrp">NRP</label>
@@ -45,6 +45,10 @@
                         <div class="form-group">
                             <label for="phone">Phone</label>
                             <input type="text" class="form-control" name="phone" id="phone" placeholder="e.g. 081234567" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="profile_picture">Profile Picture</label>
+                            <input type="file" class="form-control" name="profile_picture" id="profile_picture"/>
                         </div>
                         <div class="form-group">
                             <label for="dosenWali">Dosen Wali</label>

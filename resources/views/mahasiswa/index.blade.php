@@ -117,6 +117,7 @@
                         <thead>
                         <tr>
                             <th>NRP</th>
+                            <th>Profile</th>
                             <th>Name</th>
                             <th>Address</th>
                             <th>Email</th>
@@ -131,6 +132,7 @@
                         @foreach($mahasiswas as $mhs)
                         <tr>
                             <td>{{ $mhs->nrp }}</td>
+                            <td><img src="{{asset('/storage/uploads/'.$mhs->profile_picture)}}" width="50px" height="50px"></td>
                             <td>{{ $mhs->name }}</td>
                             <td>{{ $mhs->address }}</td>
                             <td>{{ $mhs->email }}</td>

@@ -34,6 +34,7 @@ class MahasiswaController extends Controller
     {
       $validatedData = validator($request->all(),[
         'nrp' => 'required|string|max:9|unique:mahasiswa,nrp',
+        'profile_picture' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         'name' => 'required|string|max:100',
         'email' => 'required|string|email|max:50|unique:mahasiswa,email',
         'birth_date' => 'required|date',
@@ -42,6 +43,13 @@ class MahasiswaController extends Controller
         'dosen_nik' => 'required|string',
       ])->validate();
       $mahasiswa = new Mahasiswa($validatedData);
+
+      if($request->hasFile('profile_picture')){
+        $newFileName = $validatedData['nrp'] . '.' . $request->file('profile_picture')
+        ->getClientOriginalExtension();
+        $request->file('profile_picture')->storeAs('uploads', $newFileName);
+        $mahasiswa['profile_picture'] = $newFileName;
+      }
       $mahasiswa->save();
       return redirect(route('mahasiswaList'))->with('success', 'Data berhasil ditambahkan');
     }
@@ -91,6 +99,7 @@ class MahasiswaController extends Controller
         'email' => ['nullable', 'email', 'max:50', Rule::unique('mahasiswa', 'email')->ignore($student->nrp, 'nrp')],
         'address' => ['required', 'string', 'max:300'],
         'dosen_nik' => ['required', 'string'],
+        'profile_picture' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
       ]);
       $student['name'] = $validatedData['name'];
       $student['birth_date'] = $validatedData['birth_date'];
@@ -98,6 +107,16 @@ class MahasiswaController extends Controller
       $student['email'] = $validatedData['email'];
       $student['address'] = $validatedData['address'];
       $student['dosen_nik'] = $validatedData['dosen_nik'];
+      if($request->hasFile('profile_picture')){
+        if($student['profile_picture'] != null){
+          unlink('storage/uploads/' . $student->profile_picture);
+        }
+        $file = $request->file('profile_picture');
+        $newFileName = $validatedData['nrp'] . '.' . $file->getClientOriginalExtension();
+        $file->storePubliclyAs('uploads', $newFileName);
+        $student['profile_picture'] = $newFileName;
+
+      }
       $student->save();
       return redirect()->route('mahasiswaList')
         ->with('status', 'Student successfully updated!');
